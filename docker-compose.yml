@@ -1,0 +1,120 @@
+version: '3.8'
+
+services:
+  loadbalancing.api:
+    image: ${DOCKER_REGISTRY-}loadbalancingapi
+    container_name: loadbalancing.api
+    build:
+      context: .
+      dockerfile: LoadBalancing.Api/Dockerfile
+    cpus: 1
+    mem_limit: "0.5G"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 5000:8080
+      - 5001:8081
+    networks:
+      - proxybackend
+
+  loadbalancing.api2:
+    image: ${DOCKER_REGISTRY-}loadbalancingapi2
+    container_name: loadbalancing.api2
+    build:
+      context: .
+      dockerfile: LoadBalancing.Api/Dockerfile
+    cpus: 1
+    mem_limit: "0.5G"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 6000:8080
+      - 6001:8081
+    networks:
+      - proxybackend
+
+  loadbalancing.api3:
+    image: ${DOCKER_REGISTRY-}loadbalancingapi3
+    container_name: loadbalancing.api3
+    build:
+      context: .
+      dockerfile: LoadBalancing.Api/Dockerfile
+    cpus: 1
+    mem_limit: "0.5G"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 7000:8080
+      - 7001:8081
+    networks:
+      - proxybackend
+
+  loadbalancing.api4:
+    image: ${DOCKER_REGISTRY-}loadbalancingapi4
+    container_name: loadbalancing.api4
+    build:
+      context: .
+      dockerfile: LoadBalancing.Api/Dockerfile
+    cpus: 1
+    mem_limit: "0.5G"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 8000:8080
+      - 8001:8081
+    networks:
+      - proxybackend
+
+  loadbalancing.api5:
+    image: ${DOCKER_REGISTRY-}loadbalancingapi5
+    container_name: loadbalancing.api5
+    build:
+      context: .
+      dockerfile: LoadBalancing.Api/Dockerfile
+    cpus: 1
+    mem_limit: "0.5G"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 9000:8080
+      - 9001:8081
+    networks:
+      - proxybackend
+
+  loadbalancing.yarp:
+    image: ${DOCKER_REGISTRY-}loadbalancingyarp
+    container_name: loadbalancing.yarp
+    build:
+      context: .
+      dockerfile: LoadBalancing.Yarp/Dockerfile
+    cpus: 1
+    mem_limit: "0.5G"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 3000:8080
+      - 3001:8081
+    networks:
+      - proxybackend
+
+  loadbalancing.db:
+    image: postgres:latest
+    container_name: loadbalancing.db
+    cpus: 1
+    mem_limit: "1G"
+    environment:
+      - POSTGRES_DB=loadbalancing
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - proxybackend
+
+networks:
+  proxybackend:
+    name: proxybackend
+    driver: bridge
+
